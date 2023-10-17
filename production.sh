@@ -27,6 +27,7 @@ export DISPLAY=':0'
 export LC_CTYPE=en_GB.UTF-8
 export LC_ALL=en_GB.UTF-8
 
+# Generate SIP config and restart asterisk server
 bun config-generator/generator.ts
 
 # The isc-dhcp-server cannot start without the interface having a ip
@@ -34,8 +35,21 @@ bun config-generator/generator.ts
 ifconfig enp3s0 192.168.2.18
 systemctl restart isc-dhcp-server.service
 
-# TODO restart after crash
-xinit /root/video-doorbell/app/app -- :0 -nocursor &
+screen -S app -d -m bash -c "
+	while true; do
+		xinit /root/video-doorbell/app/app -- :0 -nocursor 2>&1 | tee /root/app.log;
+		sleep 5;
+	 done
+)"
+
+screen -S time-sync -d -m bash -c "
+	echo sleeping...
+	sleep 600; # wait 10 minutes for all indoor stations to be online
+	while true; do
+		/root/.bun/bin/bun /root/video-doorbell/config/config.ts sync-indoor-stations 2>&1 | tee /root/time-sync.log;
+		sleep  43200; # wait 12 hours
+	done
+"
 
 # waiting for the app to start
 sleep 1
