@@ -43,8 +43,6 @@ if (command === 'sync-indoor-stations') {
 	console.log('Found peers:')
 	console.log(stations.map(u => `    ${u.name} ${u.ip}`).join('\n'))
 	await syncI53Ws(stations)
-
-	console.log('If after running this command the time is still not correct, wait a maximum of 30 minutes for the changes to propagate.')
 	exitWith(0)
 }
 
@@ -111,7 +109,7 @@ async function setDateTimeI53W(page: Page, link: string, date: Date) {
 		await page.waitForTimeout(3000)
 
 	} catch (e) {
-		console.log('Could not login')
+		console.log('Not logging in')
 	}
 	await page.goto(link + "/time.htm")
 	const { d, h, m } = destructDate(date)
