@@ -92,5 +92,5 @@ if (!fs.existsSync(asterisk)) {
 else {
 	fs.copyFileSync('../asterisk/extensions.conf', `${asterisk}/extensions.conf`)
 	fs.copyFileSync('../asterisk/sip.conf', `${asterisk}/sip.conf`)
-	exec('asterisk -rx "reload"')
+	exec('asterisk -rx reload')
 }
