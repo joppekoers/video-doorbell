@@ -63,7 +63,7 @@ if (command === 'update-occupants') {
 function exec(command: string, inheritIO = false) {
 	console.log('Executing:', command)
 	const opt = inheritIO ? { stdio: 'inherit' } as const : {}
-	return execSync(command, opt).toString()
+	return execSync(command, opt)?.toString()
 }
 
 async function exitWith(code: 1 | 0, msg = '') {
