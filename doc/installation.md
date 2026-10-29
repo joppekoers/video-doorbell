@@ -52,6 +52,13 @@ systemctl restart isc-dhcp-server.service
 systemctl enable isc-dhcp-server.service
 ```
 
+### Collect the cameras' logs
+The cameras cannot send their log anywhere, so the touchscreen computer copies it every 10 minutes into `/var/log/cameras/`.
+```shell
+chmod +x config/fetch-camera-logs.sh
+echo '*/10 * * * * root /root/video-doorbell/config/fetch-camera-logs.sh' > /etc/cron.d/camera-logs
+```
+
 ### Enable auto login for root
 ```shell
 systemctl edit getty@tty1

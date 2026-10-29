@@ -31,7 +31,7 @@ Runs:
 	- Only the `Front door camera` runs electronic lock to open the door
 ```
 username: root
-password: root // TODO
+password: joppe2022
 ```
 
 ### `Indoor Stations` Fanvill i53W
